@@ -4,7 +4,7 @@ import HashMap "mo:base/HashMap";
 actor Token {
     var owner : Principal = Principal.fromText("3yr4e-jh5j6-zda4p-2j3gp-pph5y-hs5g2-rr2nw-xolar-nprxy-6fnd3-6qe");
     var totalSupply : Nat = 1000000000;
-    var symbol : Text = "ANGI";
+    var symbol : Text = "TANA";
 
     var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
 
@@ -17,6 +17,10 @@ actor Token {
         };
 
         return balance;
+    };
+
+    public query func getSymbol() : async Text {
+        return symbol;
     };
 };
 
