@@ -1,4 +1,5 @@
 service : {
+  Payout: () -> (text);
   balanceOf: (principal) -> (nat) query;
   getSymbol: () -> (text) query;
 }
