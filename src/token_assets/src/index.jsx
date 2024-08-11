@@ -24,7 +24,10 @@ const init = async () => {
 }
 
 async function handleAuth(authClient){
-  ReactDOM.render(<App />, document.getElementById("root"));
+  const identity = await authClient.getIdentity();
+  const userPrincipal = identity.getPrincipal().toString();
+  console.log("Logged in as: ", userPrincipal);
+  ReactDOM.render(<App loggedInPrincipal={userPrincipal}/>, document.getElementById("root"));
 }
 
 init();

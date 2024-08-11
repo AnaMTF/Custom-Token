@@ -1,14 +1,25 @@
 import React, {useState} from "react";
-import { token } from "../../../declarations/token/index";
+import {canisterId, createActor } from "../../../declarations/token/index";
+import {AuthClient} from "@dfinity/auth-client";
 
-function Faucet() {
+function Faucet(props) {
 
   const [isDisabled, setIsDisabled] = useState(false);
   const [buttonText, setButtonText] = useState("Gimme gimme");
 
   async function handleClick(event) {
     setIsDisabled(true);
-    const result = await token.Payout();
+
+    const authClient = await AuthClient.create();
+    const identity = await authClient.getIdentity();
+
+    const authenticatedCanister = createActor(canisterId,{
+      agentOptions:{
+        identity,
+      },
+      });
+
+    const result = await authenticatedCanister.Payout();
     setButtonText(result);
   }
 
@@ -20,7 +31,7 @@ function Faucet() {
         </span>
         Faucet
       </h2>
-      <label>Get your free TAna tokens here! Claim 10,000 TANA coins to your account.</label>
+      <label>Get your free TAna tokens here! Claim 10,000 TANA coins to {props.userPrincipal}.</label>
       <p className="trade-buttons">
         <button disabled={isDisabled} id="btn-payout" onClick={handleClick}>
           {buttonText}
